@@ -1,8 +1,6 @@
 package com.slupicki
 
-inline infix fun <T1, T2, T3> ((T1) -> T2).map(crossinline g: (T2) -> T3): (T1) -> T3 {
-    return { x -> g(this(x)) }
-}
+inline infix fun <T1, T2, T3> ((T1) -> T2).map(crossinline g: (T2) -> T3): (T1) -> T3 = { x -> g(this(x)) }
 
 fun main() {
 
