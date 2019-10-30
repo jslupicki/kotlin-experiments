@@ -1,10 +1,20 @@
 package com.slupicki
 
-inline infix fun <T1, T2, T3> ((T1) -> T2).map(crossinline g: (T2) -> T3): (T1) -> T3 = { x -> g(this(x)) }
+inline fun <T1, T2, T3> ((T1) -> T2).map(crossinline f: (T2) -> T3): (T1) -> T3 = { x -> f(this(x)) }
+inline fun <T1, T2> (() -> T1).map(crossinline f: (T1) -> T2): () -> T2 = { f(this()) }
+inline fun <T1, T2> T1.map(crossinline f: (T1) -> T2): () -> T2 = { f(this) }
 
 fun main() {
+    val f = 10
+            .map { a -> a.toString() }
+            .map { a: String -> "Step2{$a}" }
+            .map { a: String -> "Step3<$a>" }
+            .invoke()
 
-    val fString = { a: Int -> "Step1($a)" } map { a: String -> "Step2{$a}" } map { a: String -> "Step3<$a>" }
+    val r = { a: Int -> a.toString() }
+            .map { a: String -> "Step2{$a}" }
+            .map { a: String -> "Step3<$a>" }
 
-    println("fString(42) = ${fString(42)}" )
+    println("f = ${f}")
+    println("r(20) = ${r(20)}")
 }
